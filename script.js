@@ -23,7 +23,7 @@ $(document).ready(function () {
       var image = $('<img class="card-img-top" src="' + cart.items[i].image + '" />')
       var divCardBody = $('<div class="card-body">')
       var title = $('<h5 class="card-title">' + cart.items[i].name + '</h5>')
-      var text = $('<p class="card-text">$ ' + cart.items[i].price + '</p>')
+      var text = $('<p class="card-text">$ ' + cart.items[i].price + ' x <input class="quantity" type="number" min="0"></p>')
       divCard.append(image)
       divCardBody.append(title)
       divCardBody.append(text)
@@ -34,6 +34,11 @@ $(document).ready(function () {
     }
   }
   console.log("Start here");
+
+  $('#clrCartBtn').click(function () {
+    localStorage.clear();
+    location.reload(true);
+  })
   // Basic tasks
   // 1. Show / hide cart section on button click (Cart button / close cutton)
   $('#showCartBtn').click(function () {
@@ -63,28 +68,33 @@ $(document).ready(function () {
   }
   // 3. Dynamically show total items in Cart
   // 4. Add to cart button functionality
+  // 7. Store and load cart from localStorage
   $(".cartCSS").click(function () {
     $(this).prop('disabled', true)
     var index = event.target.id
-    cart.items.push(products[index]);
-    localStorage.setItem('cart', JSON.stringify(cart))
-    $("#itemNo").text(cart.items.length);
+    if (cart.items[index] == undefined) {
+      cart.items.push(products[index]);
+      localStorage.setItem('cart', JSON.stringify(cart))
+      $("#itemNo").text(cart.items.length);
 
-    // 5. Dynamically load cart items
-    var divCol = $('<div class="col-md-4">')
-    var divCard = $('<div class="card">')
-    var image = $('<img class="card-img-top" src="' + products[index].image + '" />')
-    var divCardBody = $('<div class="card-body">')
-    var title = $('<h5 class="card-title">' + products[index].name + '</h5>')
-    var text = $('<p class="card-text">$ ' + products[index].price + ' x <input type="number" min="0"></p>')
-    divCard.append(image)
-    divCardBody.append(title)
-    divCardBody.append(text)
-    divCard.append(divCardBody)
-    divCol.append(divCard)
-    $('#cart .row').append(divCol)
+      // 5. Dynamically load cart items
+      var divCol = $('<div class="col-md-4">')
+      var divCard = $('<div class="card">')
+      var image = $('<img class="card-img-top" src="' + products[index].image + '" />')
+      var divCardBody = $('<div class="card-body">')
+      var title = $('<h5 class="card-title">' + products[index].name + '</h5>')
+      var text = $('<p class="card-text">$ ' + products[index].price + ' x <input class="quantity" type="number" min="0"></p>')
+      divCard.append(image)
+      divCardBody.append(title)
+      divCardBody.append(text)
+      divCard.append(divCardBody)
+      divCol.append(divCard)
+      $('#cart .row').append(divCol)
+    }
   })
 
   // 6. Implement quantity update for each cart item and update total cost dynamically.
-  // 7. Store and load cart from localStorage
+    $('.quantity').change(function() {
+      console.log($('.quantity').val())
+   });
 });
