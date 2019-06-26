@@ -94,7 +94,10 @@ $(document).ready(function () {
   })
 
   // 6. Implement quantity update for each cart item and update total cost dynamically.
-    $('.quantity').change(function() {
-      console.log($('.quantity').val())
-   });
+  for (var i = 0; i < cart.items.length; i++){
+  $('.quantity').change(function(){
+    var value = $('.quantity').val();
+    console.log(value);
+    });
+  }
 });
